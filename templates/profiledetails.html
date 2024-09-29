@@ -1,0 +1,81 @@
+{% extends 'base.html'%}
+
+{% block sidebar_content %}
+    <li class="nav-item">
+        <a class="btn btn-danger btn-block" href="/">Home</a>
+    </li>
+    <li class="nav-item"></li>
+        <a class="btn btn-danger btn-block" href="/manageprofiles">Back to managing profiles</a>
+    </li>
+    <li class="nav-item"></li>
+        <a class="btn btn-danger btn-block" href="/admin">Admin</a>
+    </li>
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+
+
+{% block body %}
+
+<div class="container"></div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <div class="row">
+        <div class="col-md-6">
+            <h1>You can make any changes here</h1>
+            <form method="POST" action="{{ url_for('profiledetails.saveprofile', profile_id=profile.profile_id) }}">
+                <input type="text" name="profile_name" value={{ profile.profile_name }} ></input>
+                <textarea rows="4" name="db_connection_info" style="width:100%;">{{ profile.db_connection_info | safe }}</textarea>
+                <input type="text" name="abstract_layer_path" value={{ profile.abstract_layer_path}}></input>
+
+                <button type="submit"> save profile changes</button>
+            </form>
+        </div>
+    </div>
+    <!-- Delete button -->
+    <div class="row">
+        <div class="col-md-6">
+            <form method="POST" action="{{ url_for('profiledetails.delete_profile', profile_id=profile.profile_id) }}">
+                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this profile?');">Delete</button>
+            </form>
+            
+        </div>
+    </div>
+</div>
+
+<!-- needs a queryscreen to test the connection
+ -->
+
+ <!-- Modal for confirmation -->
+<!-- <div class="modal" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Confirm Deletion</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to delete this profile?</p>
+        </div>
+        <div class="modal-footer">
+          <form method="POST" action="{{ url_for('profiledetails.delete_profile', profile_id=profile.profile_id) }}">
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </form>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div> -->
+{% endblock %}

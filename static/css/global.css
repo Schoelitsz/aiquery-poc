@@ -1,0 +1,160 @@
+/* Reset some default browser styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f4f4f4;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Container for fixed-width layout */
+.container {
+    width: 80%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header styling */
+header {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+/* Main content area */
+main {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Form styling */
+form {
+    margin: 20px 0;
+}
+
+form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+form input,
+form select,
+form textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+form button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
+
+/* Footer styling */
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+footer p {
+    margin: 0;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+    }
+
+    header h1 {
+        font-size: 1.5rem;
+    }
+
+    form input,
+    form select,
+    form textarea {
+        padding: 6px;
+    }
+
+    form button {
+        padding: 8px 12px;
+    }
+}
+
+/* Custom styles for the sidebar */
+
+.sidebar {
+    min-height: 100vh; /* Full-height sidebar */
+    position: sticky; /* Stick to top */
+    top: 0; /* Top of the viewport */
+    padding: 1rem; /* Padding around sidebar content */
+}
+
+.sidebar .nav-link {
+    color: #333; /* Text color */
+    font-weight: 500; /* Semi-bold text */
+    padding: 0.75rem 1.25rem; /* Padding around each link */
+    border-radius: 0.25rem; /* Rounded corners */
+}
+
+.sidebar .nav-link:hover {
+    color: #007bff; /* Link color on hover */
+    background-color: #f8f9fa; /* Background color on hover */
+}
+
+.sidebar .nav-item {
+    margin-bottom: 0.5rem; /* Spacing between items */
+}
+
+.sidebar .nav-item .nav-link.active {
+    color: #fff; /* Active link text color */
+    background-color: #007bff; /* Active link background color */
+}
+
+.sidebar .sidebar-sticky {
+    position: -webkit-sticky; /* For Safari */
+    position: sticky;
+    top: 0;
+    z-index: 100; /* Ensure it's above other content */
+}
+

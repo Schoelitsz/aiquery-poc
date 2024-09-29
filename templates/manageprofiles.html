@@ -1,0 +1,49 @@
+{% extends 'base.html'%}
+
+{% block sidebar_content %}
+    <li class="nav-item">
+        <a class="btn btn-danger btn-block" href="/">Home</a>
+    </li>
+    <li class="nav-item"></li>
+        <a class="btn btn-danger btn-block" href="/admin">Admin</a>
+    </li>
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+
+
+{% block body %}
+
+<div class="container"></div>
+    <div class="row">
+        <div class="col-md-6">
+            <h1>Choose a profile to manage</h1>
+            <form method="post" action="/details">
+                <label for="#profile-select">profiles</label>
+                <select id="profile-select" name="chosenprofile">
+                    <option value="" selected>Choose a profile</option> <!-- Empty option as default -->
+                    {% for profile in profiles%}
+                    <option value={{ profile.profile_id }} name="profiletomanage">{{ profile.profile_name }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit">Open</button>
+            </form>
+
+            <!-- Section where the profile details will be displayed -->
+            <!-- <div id="profile-details" style="display:none;">
+                <h2>Profile Details</h2>
+                <form>
+                    <div class="form-group">
+                        <label for="profile-name">Name:</label>
+                        <input type="text" id="profile-name" class="form-control" value="profile-name"></input>
+                    </div>
+                    
+                </form>
+            </div> -->
+        </div>
+    </div>
+</div>
+
+{% endblock %}

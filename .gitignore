@@ -1,0 +1,8 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environment
+phivenv/
+.env  # If you have a .env file for environment variables

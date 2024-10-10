@@ -1,5 +1,11 @@
 {% extends 'base.html' %}
 
+{% block head  %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/chatscreen.css') }}">
+
+{% endblock %}
+
 {% block sidebar_content %}
     <li class="nav-item">
         <a class="btn btn-primary btn-block" href="/">Home</a>
@@ -7,10 +13,17 @@
     <li class="nav-item"></li>
         <a class="btn btn-danger btn-block" href="/admin">Admin</a>
     </li>
+
+    <div class="query-log">
+        <h5>Query Log</h5>
+        <div id="log-messages" class="log-messages">
+            <!-- Log messages will be displayed here -->
+        </div>
+    </div>
 {% endblock %}
 
 {% block body %}
-<div class="container">
+<div>
     <h1>Profile Details</h1>
     <div class="card">
         <div class="card-body">
@@ -21,34 +34,28 @@
         </div>
     </div>
 
-    <div class="queryscreen">
-        <form id="query-form" method="POST" action="/query">
-            <label for="query">Enter query:</label>
-            <input type="text" id="query" name="queryinput" required><br><br>
-
-            <!-- Hidden field to pass the profile's connection string -->
-            <input type="hidden" id="profile_connection_string" name="profile_connection_string" value="{{ profile.db_connection_info }}">
-
-            <button type="submit" class="btn btn-primary">Run Query</button>
-        </form>
-    </div>
-
-    <div id="query-result">
-        {% if query_result %}
-            <h3>Query Result:</h3>
-            <pre>{{ query_result }}</pre>
-        {% endif %}
+    <div class="chat-screen">
+        <div id="chat-messages" class="chat-messages">
+            <!-- Chat messages will be displayed here -->
+        </div>
+        <div class="chat-input">
+            <input type="text" id="query" placeholder="Type your query..." required>
+            <button id="send-button" class="btn btn-primary">Send</button>
+        </div>
     </div>
 </div>
 
 <script>
-    document.getElementById('query-form').addEventListener('submit', function(event) {
-        event.preventDefault();  // Prevent the form from submitting the traditional way
-        
+    document.getElementById('send-button').addEventListener('click', function() {
         let query = document.getElementById('query').value;
-        let profileConnectionString = document.getElementById('profile_connection_string').value;
+        let profileConnectionString = "{{ profile.db_connection_info }}";
 
-        // Send the query and connection string via AJAX
+        const chatMessages = document.getElementById('chat-messages');
+        chatMessages.innerHTML += `<div class="message user"><strong>You:</strong> ${query}</div>`;
+        
+        document.getElementById('query').value = '';
+
+        // Send the query via AJAX
         fetch('/query', {
             method: 'POST',
             headers: {
@@ -62,16 +69,21 @@
         .then(response => response.json())
         .then(data => {
             if (data.result) {
-                // Assuming each object has properties `column1`, `column2`, etc.
                 const resultHtml = data.result.map(row => {
                     return Object.entries(row).map(([key, value]) => `${key}: ${value}`).join(', ');
                 }).join('<br>');
-
-                document.getElementById('query-result').innerHTML = resultHtml;
+                chatMessages.innerHTML += `<div class="message system"><strong>System:</strong> ${resultHtml}</div>`;
+                
+                const logMessages = document.getElementById('log-messages');
+                logMessages.innerHTML += `<div class="log-entry"><strong>Query:</strong> ${data.query}</div>`;
             } else if (data.error) {
-                document.getElementById('query-result').innerHTML = `<span style="color: red;">Error: ${data.error}</span>`;
+                chatMessages.innerHTML += `<div class="message system" style="color: red;"><strong>Error:</strong> ${data.error}</div>`;
             }
+            chatMessages.scrollTop = chatMessages.scrollHeight;
         })
+        .catch(err => {
+            chatMessages.innerHTML += `<div class="message system" style="color: red;"><strong>Error:</strong> ${err}</div>`;
+        });
     });
 </script>
 

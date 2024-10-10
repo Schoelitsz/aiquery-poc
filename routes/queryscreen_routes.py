@@ -25,6 +25,7 @@ def query_screen(profile_id):
     except Exception as e:
         return f"An error occurred: {e}"
 
+query_log = []
 
 @queryscreen_routes_bp.route('/query', methods=['POST'])
 def query():
@@ -33,6 +34,9 @@ def query():
         query = request.form.get('queryinput')
         profile_connection_string = request.form.get('profile_connection_string')
         
+        # Log the query to the query_log list
+        query_log.append(query)
+
         # Create connection and make the query
         conn = pyodbc.connect(profile_connection_string)
         cursor = conn.cursor()
@@ -46,8 +50,8 @@ def query():
         
         conn.close()
         
-        # Return the result as JSON
-        return jsonify({"result": result_list})  # Return as a list of objects
+        # Return the result and log to JSON
+        return jsonify({"result": result_list, "log": query_log})  # Return as a list of objects and log
 
     except Exception as e:
         return jsonify({"error": str(e)})  # Return error as JSON
